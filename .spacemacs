@@ -28,6 +28,7 @@
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t)
      (version-control :variables
+                      vc-follow-symlinks t
                       version-control-global-margin t
                       version-control-diff-tool 'diff-hl)
      (shell :variables
