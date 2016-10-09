@@ -1,0 +1,31 @@
+[user]
+name = loggerhead
+email = lloggerhead@gmail.com
+[push]
+default = matching
+[credential]
+helper = osxkeychain
+helper = cache --timeout 64800
+[core]
+excludesfile = ~/.gitignore_global
+attributesfile = .gitattributes_global
+gitproxy = /usr/local/bin/git_proxy.sh for gist.github.com
+[difftool "sourcetree"]
+cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+path =
+[mergetool "sourcetree"]
+cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+trustExitCode = true
+[http]
+sslVerify = false
+#[http "https://github.com"]
+#proxy = socks5://127.0.0.1:1080
+#[http "https://gist.github.com"]
+#proxy = socks5://127.0.0.1:1080
+[color "diff-highlight"]
+oldNormal = red bold
+oldHighlight = red bold 52
+newNormal = green bold
+newHighlight = green bold 22
+[commit]
+template = ~/.stCommitMsg
