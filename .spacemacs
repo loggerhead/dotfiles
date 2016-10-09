@@ -48,7 +48,7 @@
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages
    '(
-     ;; rainbow-delimiters
+     rainbow-delimiters
      )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
@@ -298,6 +298,8 @@
   (setq highlight-thing-what-thing 'sexp)
 
   ;; keymap
+  (global-set-key (kbd "C-=") 'er/expand-region)
+
   (evil-leader/set-key "h k" 'describe-key)
   (evil-leader/set-key "h v" 'describe-variable)
   (evil-leader/set-key "h f" 'describe-function)
