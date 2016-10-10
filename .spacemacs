@@ -132,10 +132,18 @@
     (interactive)
     (switch-to-buffer (other-buffer)))
 
-  (defun my-fold ()
+  (defun my-fold-1 ()
     (interactive)
-    (let ((lv (- (read-char) ?0)))
-      (hs-hide-level lv)))
+    (hs-hide-level 1))
+  (defun my-fold-2 ()
+    (interactive)
+    (hs-hide-level 2))
+  (defun my-fold-3 ()
+    (interactive)
+    (hs-hide-level 3))
+  (defun my-fold-4 ()
+    (interactive)
+    (hs-hide-level 4))
 
   (defun my-comment-line ()
     (interactive)
@@ -177,32 +185,42 @@
 
   ;; keymap
   (global-set-key (kbd "C-=") 'er/expand-region)
-
-  (evil-leader/set-key "j c" 'evil-avy-goto-char)
-  (evil-leader/set-key "j l" 'evil-avy-goto-line)
-  (evil-leader/set-key "j w" 'evil-avy-goto-word-1)
-
   (global-set-key (kbd "s-S-z") 'undo-tree-redo)
-
   (global-set-key (kbd "C-;") 'evilnc-comment-operator)
-
-  (evil-leader/set-key "h c" 'apropos)
-  (evil-leader/set-key "s r" 'helm-imenu)
   (global-set-key (kbd "C-\\") 'find-file-at-point)
   (global-set-key (kbd "C-x b") 'my-switch-to-recent-buffer)
 
-  (evil-leader/set-key "F" 'my-fold)
+  (spacemacs/set-leader-keys "s r" 'helm-imenu)
+  (spacemacs/set-leader-keys "h c" 'apropos)
 
-  (evil-leader/set-key "b n" 'spacemacs/new-empty-buffer)
-  (evil-leader/set-key "b p" 'my-switch-to-recent-buffer)
+  (spacemacs/declare-prefix "j" "jump")
+  (spacemacs/set-leader-keys
+    "j d" 'evil-goto-definition
+    "j c" 'evil-avy-goto-char
+    "j l" 'evil-avy-goto-line
+    "j w" 'evil-avy-goto-word-1)
 
-  (evil-leader/set-key "w -" 'split-window-below-and-focus)
-  (evil-leader/set-key "w /" 'split-window-right-and-focus)
+  (spacemacs/declare-prefix "F" "fold")
+  (spacemacs/set-leader-keys
+    "F 1" 'my-fold-1
+    "F 2" 'my-fold-2
+    "F 3" 'my-fold-3
+    "F 4" 'my-fold-4
+    "F 0" 'hs-show-all
+    "F f" 'hs-hide-block
+    "F s" 'hs-show-block)
 
-  (evil-leader/set-key "w ," 'windsize-up)
-  (evil-leader/set-key "w ." 'windsize-down)
-  (evil-leader/set-key "w <" 'windsize-left)
-  (evil-leader/set-key "w >" 'windsize-right)
+  (spacemacs/set-leader-keys
+    "b n" 'spacemacs/new-empty-buffer
+    "b p" 'my-switch-to-recent-buffer)
+
+  (spacemacs/set-leader-keys
+    "w -" 'split-window-below-and-focus
+    "w /" 'split-window-right-and-focus
+    "w ," 'windsize-up
+    "w ." 'windsize-down
+    "w <" 'windsize-left
+    "w >" 'windsize-right)
 
   (global-set-key (kbd "C-S-j") 'move-text-down)
   (global-set-key (kbd "C-S-k") 'move-text-up)
