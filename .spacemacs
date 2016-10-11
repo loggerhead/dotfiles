@@ -14,7 +14,7 @@
      github
      markdown
      org
-     ;; spell-checking
+     spell-checking
      syntax-checking
      fasd
      python
@@ -60,19 +60,13 @@
    dotspacemacs-startup-banner nil
    dotspacemacs-startup-lists '(recents bookmarks projects)
    dotspacemacs-startup-recent-list-size 5
-   dotspacemacs-scratch-mode 'text-mode
-   dotspacemacs-themes '(solarized-dark
-                         solarized-light
-                         spacemacs-dark
-                         spacemacs-light
-                         leuven
-                         monokai
+   dotspacemacs-scratch-mode 'lisp-interaction-mode
+   dotspacemacs-themes '(spacemacs-dark
+                         solarized-dark
                          zenburn)
    dotspacemacs-colorize-cursor-according-to-state t
    dotspacemacs-default-font '("Monaco"
                                :size 13
-                               :weight normal
-                               :width normal
                                :powerline-scale 1.1)
    dotspacemacs-leader-key "SPC"
    dotspacemacs-emacs-leader-key "M-m"
@@ -95,7 +89,7 @@
    dotspacemacs-enable-paste-micro-state nil
    dotspacemacs-which-key-delay 0.3
    dotspacemacs-which-key-position 'bottom
-   dotspacemacs-loading-progress-bar nil
+   dotspacemacs-loading-progress-bar t
 
    dotspacemacs-fullscreen-at-startup nil
    dotspacemacs-fullscreen-use-non-native t
@@ -125,6 +119,9 @@
 
   (setq-default rust-enable-racer t)
   (setq company-tooltip-align-annotations t)
+  (custom-set-variables
+   '(spacemacs-theme-comment-bg nil)
+   '(spacemacs-theme-org-height nil))
   )
 
 (defun dotspacemacs/user-config ()
@@ -153,13 +150,15 @@
   (setq powerline-default-separator 'bar)
   (spaceline-compile)
   ;; load theme
-  (load-theme 'solarized t)
-  (add-hook 'after-make-frame-functions
-            (lambda (frame)
-              (let ((mode (if (display-graphic-p frame) 'light 'dark)))
-                (set-frame-parameter frame 'background-mode mode)
-                (set-terminal-parameter frame 'background-mode mode))
-              (enable-theme 'solarized)))
+  (when (or (eq (car dotspacemacs-themes) 'solarized-dark)
+            (eq (car dotspacemacs-themes) 'solarized-light))
+    (load-theme 'solarized t)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (let ((mode (if (display-graphic-p frame) 'light 'dark)))
+                  (set-frame-parameter frame 'background-mode mode)
+                  (set-terminal-parameter frame 'background-mode mode))
+                (enable-theme 'solarized))))
 
   ;; global mode
   (global-company-mode t)
