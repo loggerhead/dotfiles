@@ -151,7 +151,9 @@
     (comment-line))
 
   ;; powerline
-  (setq powerline-default-separator 'bar)
+  (if (display-graphic-p)
+      (setq powerline-default-separator 'alternate)
+    (setq powerline-default-separator 'utf-8))
   (spaceline-compile)
   ;; load theme
   (when (or (eq (car dotspacemacs-themes) 'solarized-dark)
