@@ -169,8 +169,8 @@
   (global-auto-revert-mode t)
   (global-diff-hl-mode t)
   (global-highlight-changes-mode t)
-  (diff-hl-flydiff-mode t)
   (global-highlight-thing-mode t)
+  (diff-hl-flydiff-mode t)
 
   ;; eshell
   (with-eval-after-load "esh-opt"
@@ -216,6 +216,10 @@
 
   (spacemacs/set-leader-keys "s r" 'helm-imenu)
   (spacemacs/set-leader-keys "h c" 'apropos)
+
+  (spacemacs/declare-prefix "H" "highlight")
+  (spacemacs/set-leader-keys
+    "H c" 'highlight-changes-visible-mode)
 
   (spacemacs/declare-prefix "j" "jump")
   (spacemacs/set-leader-keys
