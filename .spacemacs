@@ -170,9 +170,10 @@
   (global-company-mode t)
   (global-auto-revert-mode t)
   (global-diff-hl-mode t)
-  (global-highlight-changes-mode t)
   (global-highlight-thing-mode t)
   (diff-hl-flydiff-mode t)
+  (global-highlight-changes-mode t)
+  (setq highlight-changes-visible-mode nil)
 
   ;; eshell
   (with-eval-after-load "esh-opt"
