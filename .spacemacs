@@ -214,6 +214,9 @@
   (global-set-key (kbd "C-\\") 'find-file-at-point)
   (global-set-key (kbd "C-x b") 'my-switch-to-recent-buffer)
 
+  (define-key evil-normal-state-map (kbd "C-k") 'scroll-down-line)
+  (define-key evil-normal-state-map (kbd "C-j") 'scroll-up-line)
+
   (spacemacs/set-leader-keys "s r" 'helm-imenu)
   (spacemacs/set-leader-keys "h c" 'apropos)
 
