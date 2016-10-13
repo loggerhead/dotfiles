@@ -28,12 +28,6 @@ export THRIFT_HOME=$(brew --prefix thrift)
 export ZOOKEEPER_HOME=$(brew --prefix zookeeper)
 export KAFKA_HOME=$(brew --prefix kafka)
 
-export RUST_BACKTRACE=1
-export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
-export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup/dist
-export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
-export CARGO_HOME=$HOME/.cargo
-
 export GOROOT=$(brew --prefix go)
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export POSTGRES_PATH=/Applications/Postgres93.app/Contents/MacOS/bin
@@ -43,3 +37,9 @@ export CLASSPATH=".:./weka.jar:/usr/local/lib:/Applications/weka-3-6-13/weka.jar
 export GENERATED_JAVAH=$JAVA_HOME
 
 export PATH=$(brew --prefix coreutils)/libexec/gnubin:$HOME/Documents/codes/myscript:$HOME/.cargo/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:$POSTGRES_PATH:$GOROOT/bin:$HBASE_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+
+export RUST_BACKTRACE=1
+export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup/dist
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
+export CARGO_HOME=$HOME/.cargo
