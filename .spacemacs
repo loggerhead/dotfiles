@@ -33,7 +33,7 @@
             shell-default-shell 'eshell
             shell-protect-eshell-prompt t)
      (colors :variables
-             colors-colorize-identifiers 'all
+             colors-colorize-identifiers nil
              colors-enable-nyan-cat-progress-bar t)
      )
    dotspacemacs-additional-packages
@@ -170,6 +170,7 @@
   (global-diff-hl-mode t)
   (global-highlight-changes-mode t)
   (diff-hl-flydiff-mode t)
+  (global-highlight-thing-mode t)
 
   ;; eshell
   (with-eval-after-load "esh-opt"
@@ -177,9 +178,14 @@
     (setq eshell-highlight-prompt nil
           eshell-prompt-function 'epe-theme-dakrone))
 
-  ;; settings
   (setq-default spacemacs-show-trailing-whitespace nil)
-  (setq highlight-thing-what-thing 'sexp)
+
+  ;; highlight-thing
+  (setq highlight-thing-what-thing 'symbol)
+  (setq highlight-thing-delay-seconds 0.1)
+  (setq highlight-thing-limit-to-defun t)
+  (setq highlight-thing-case-sensitive-p t)
+
   ;; TODO: replace
   ;; hideshow
   (setq hs-hide-comments nil)
