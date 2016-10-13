@@ -20,7 +20,7 @@
      python
      rust
      (auto-completion :variables
-                      auto-completion-return-key-behavior nil
+                      auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-complete-with-key-sequence-delay 0.05
                       auto-completion-enable-snippets-in-popup t
