@@ -172,8 +172,6 @@
   (global-diff-hl-mode t)
   (global-highlight-thing-mode t)
   (diff-hl-flydiff-mode t)
-  (global-highlight-changes-mode t)
-  (setq highlight-changes-visible-mode nil)
 
   ;; eshell
   (with-eval-after-load "esh-opt"
@@ -200,6 +198,8 @@
   (setq nyan-wavy-trail nil)
   (setq nyan-animate-nyancat nil)
 
+  (push "*Warnings*" popwin:special-display-config)
+
   ;; youdao-dict
   (setq url-automatic-caching t)
   (setq youdao-dictionary-search-history-file "~/.emacs.d/.youdao")
@@ -222,10 +222,6 @@
 
   (spacemacs/set-leader-keys "s r" 'helm-imenu)
   (spacemacs/set-leader-keys "h c" 'apropos)
-
-  (spacemacs/declare-prefix "H" "highlight")
-  (spacemacs/set-leader-keys
-    "H c" 'highlight-changes-visible-mode)
 
   (spacemacs/declare-prefix "j" "jump")
   (spacemacs/set-leader-keys
