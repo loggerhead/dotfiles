@@ -224,6 +224,9 @@
   (define-key evil-hybrid-state-map (kbd "C-h") 'backward-delete-char-untabify)
 
   (spacemacs/set-leader-keys
+    "s r" 'helm-imenu)
+
+  (spacemacs/set-leader-keys
     "g <tab>" 'magit-checkout
     "g B" 'magit-branch-popup
     "g a" 'magit-stage-file
