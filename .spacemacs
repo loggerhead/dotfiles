@@ -20,9 +20,9 @@
      python
      rust
      (auto-completion :variables
+                      auto-completion-tab-key-behavior 'nil
                       auto-completion-return-key-behavior 'complete
-                      auto-completion-tab-key-behavior 'complete
-                      auto-completion-complete-with-key-sequence-delay 0.05
+                      auto-completion-complete-with-key-sequence-delay 0.01
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t)
      (version-control :variables
@@ -104,7 +104,7 @@
 
    dotspacemacs-mode-line-unicode-symbols t
    dotspacemacs-smooth-scrolling t
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    dotspacemacs-smartparens-strict-mode nil
    dotspacemacs-highlight-delimiters 'all
    dotspacemacs-persistent-server t
@@ -141,6 +141,16 @@
   (defun my-fold-4 ()
     (interactive)
     (hs-hide-level 4))
+  (defun my-scroll-down-line ()
+    (interactive)
+    (scroll-down-line)
+    (scroll-down-line)
+    (scroll-down-line))
+  (defun my-scroll-up-line ()
+    (interactive)
+    (scroll-up-line)
+    (scroll-up-line)
+    (scroll-up-line))
 
   ;; powerline
   (if (display-graphic-p)
@@ -159,11 +169,13 @@
                 (enable-theme 'solarized))))
 
   ;; global mode
+  (global-hungry-delete-mode t)
   (global-company-mode t)
   (global-auto-revert-mode t)
   (global-diff-hl-mode t)
   (global-highlight-thing-mode t)
   (diff-hl-flydiff-mode t)
+  (delete-selection-mode t)
 
   ;; eshell
   (with-eval-after-load "esh-opt"
@@ -172,6 +184,21 @@
           eshell-prompt-function 'epe-theme-dakrone))
 
   (setq-default spacemacs-show-trailing-whitespace nil)
+
+  ;; complete
+  (setq hippie-expand-try-function-list '(try-expand-debbrev
+                                          try-expand-debbrev-all-buffers
+                                          try-expand-debbrev-from-kill
+                                          try-complete-file-name-partially
+                                          try-complete-file-name
+                                          try-expand-all-abbrevs
+                                          try-expand-list
+                                          try-expand-line
+                                          try-complete-lisp-symbol-partially
+                                          try-complete-lisp-symbol))
+
+  ;; org
+  (setq org-agenda-files '("~/org"))
 
   ;; highlight-thing
   (setq highlight-thing-what-thing 'symbol)
@@ -218,8 +245,8 @@
   (define-key evil-normal-state-map (kbd "C-n") 'next-line)
   (define-key evil-normal-state-map (kbd "C-p") 'previous-line)
   (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
-  (define-key evil-normal-state-map (kbd "C-k") 'scroll-down-line)
-  (define-key evil-normal-state-map (kbd "C-j") 'scroll-up-line)
+  (define-key evil-normal-state-map (kbd "C-k") 'my-scroll-down-line)
+  (define-key evil-normal-state-map (kbd "C-j") 'my-scroll-up-line)
   (define-key evil-normal-state-map (kbd "M-S-d") 'kill-sexp)
   (define-key evil-hybrid-state-map (kbd "C-h") 'backward-delete-char-untabify)
 
@@ -231,7 +258,7 @@
     "g B" 'magit-branch-popup
     "g a" 'magit-stage-file
     "g A" 'spacemacs//vcs-magit-stage-file-w
-    "g d" 'magit-diff-buffer-file
+    "g d" 'magit-diff-unstaged
     "g D" 'magit-diff-popup
     "g p" 'magit-push-current-to-upstream
     "g P" 'magit-push-popup
@@ -297,7 +324,7 @@
     ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(package-selected-packages
    (quote
-    (auto-dim-other-buffers rainbow-mode rainbow-identifiers youdao-dictionary helm-flyspell auto-dictionary helm-gtags ggtags gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md magit-popup company-statistics company-quickhelp pos-tip company yasnippet ac-ispell auto-complete multiple-cursors git-commit with-editor hackernews hlinum color-theme-solarized color-theme xterm-color shell-pop multi-term eshell-prompt-extras esh-help windsize windresize origami yafolding highlight-thing vimish-fold org-pomodoro alert log4e toc-org org-repo-todo org-present gntp org-plus-contrib org-bullets htmlize gnuplot toml-mode racer rust-mode pyvenv pytest pyenv-mode py-yapf pip-requirements magit-gh-pulls hy-mode helm-pydoc github-clone github-browse-file git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache ht flycheck-rust flycheck-pos-tip flycheck fasd grizzl erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks diff-hl cython-mode company-racer deferred company-anaconda anaconda-mode pythonic f smeargle reveal-in-osx-finder pbcopy osx-trash orgit mmm-mode markdown-toc markdown-mode magit-gitflow launchctl helm-gitignore request helm-company helm-c-yasnippet evil-magit magit auto-yasnippet ws-butler window-numbering volatile-highlights vi-tilde-fringe spaceline s powerline smooth-scrolling restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox hydra spinner page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu eval-sexp-fu highlight elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm which-key use-package spacemacs-theme quelpa popup helm-core evil bind-map avy)))
+    (eclim auto-dim-other-buffers rainbow-mode rainbow-identifiers youdao-dictionary helm-flyspell auto-dictionary helm-gtags ggtags gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md magit-popup company-statistics company-quickhelp pos-tip company yasnippet ac-ispell auto-complete multiple-cursors git-commit with-editor hackernews hlinum color-theme-solarized color-theme xterm-color shell-pop multi-term eshell-prompt-extras esh-help windsize windresize origami yafolding highlight-thing vimish-fold org-pomodoro alert log4e toc-org org-repo-todo org-present gntp org-plus-contrib org-bullets htmlize gnuplot toml-mode racer rust-mode pyvenv pytest pyenv-mode py-yapf pip-requirements magit-gh-pulls hy-mode helm-pydoc github-clone github-browse-file git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache ht flycheck-rust flycheck-pos-tip flycheck fasd grizzl erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks diff-hl cython-mode company-racer deferred company-anaconda anaconda-mode pythonic f smeargle reveal-in-osx-finder pbcopy osx-trash orgit mmm-mode markdown-toc markdown-mode magit-gitflow launchctl helm-gitignore request helm-company helm-c-yasnippet evil-magit magit auto-yasnippet ws-butler window-numbering volatile-highlights vi-tilde-fringe spaceline s powerline smooth-scrolling restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox hydra spinner page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu eval-sexp-fu highlight elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm which-key use-package spacemacs-theme quelpa popup helm-core evil bind-map avy)))
  '(spacemacs-theme-comment-bg nil)
  '(spacemacs-theme-org-height nil))
 (custom-set-faces
