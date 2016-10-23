@@ -14,11 +14,12 @@
      github
      markdown
      org
-     spell-checking
-     syntax-checking
      fasd
      python
      rust
+     ycmd
+     spell-checking
+     syntax-checking
      (auto-completion :variables
                       auto-completion-tab-key-behavior 'nil
                       auto-completion-return-key-behavior 'complete
@@ -38,15 +39,15 @@
      )
    dotspacemacs-additional-packages
    '(
+     helm-swoop
+     youdao-dictionary
+     highlight-thing
+     hideshow
      color-theme-solarized
      xterm-color
      eshell-prompt-extras
-     helm-swoop
-     highlight-thing
      windsize
-     hideshow
      hackernews
-     youdao-dictionary
      )
    dotspacemacs-excluded-packages
    '(
@@ -74,7 +75,7 @@
                                :powerline-scale 1.1)
    dotspacemacs-leader-key "SPC"
    dotspacemacs-emacs-leader-key "M-m"
-   dotspacemacs-major-mode-leader-key ","
+   dotspacemacs-major-mode-leader-key "'"
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
    dotspacemacs-distinguish-gui-tab nil
    dotspacemacs-command-key ":"
@@ -143,14 +144,10 @@
     (hs-hide-level 4))
   (defun my-scroll-down-line ()
     (interactive)
-    (scroll-down-line)
-    (scroll-down-line)
-    (scroll-down-line))
+    (evil-scroll-line-up 3))
   (defun my-scroll-up-line ()
     (interactive)
-    (scroll-up-line)
-    (scroll-up-line)
-    (scroll-up-line))
+    (evil-scroll-line-down 3))
 
   ;; powerline
   (if (display-graphic-p)
@@ -171,7 +168,6 @@
   ;; global mode
   (global-hungry-delete-mode t)
   (global-company-mode t)
-  (global-auto-revert-mode t)
   (global-diff-hl-mode t)
   (global-highlight-thing-mode t)
   (diff-hl-flydiff-mode t)
@@ -179,6 +175,16 @@
 
   ;; fuzzy-match setting
   (setq helm-swoop-use-fuzzy-match t)
+
+  ;; TODO: need test fuzzy search
+  ;; ycmd completion
+  ;; (setq ycmd-server-command (list "python" (file-truename "~/some/path")))
+  ;; (setq ycmd-force-semantic-completion t)
+  ;; (add-hook 'prog-mode-hook 'ycmd-mode)
+  ;; (add-hook 'c-mode-hook 'ycmd-mode)
+  ;; (add-hook 'c++-mode-hook 'ycmd-mode)
+  ;; (add-hook 'rust-mode-hook 'ycmd-mode)
+  ;; (add-hook 'python-mode-hook 'ycmd-mode)
 
   ;; eshell
   (with-eval-after-load "esh-opt"
@@ -214,7 +220,6 @@
   (setq hs-hide-comments nil)
   (setq hs-isearch-open 't)
   (add-hook 'prog-mode-hook 'hs-minor-mode)
-  ;; (add-hook 'rust-mode-hook 'hs-minor-mode)
 
   ;; nyan cat
   (setq nyan-wavy-trail nil)
@@ -233,7 +238,8 @@
     "d i" 'youdao-dictionary-search-from-input
     "d v" 'youdao-dictionary-play-voice-at-point)
 
-  ;; keymap
+  ;; key-binding
+  (global-set-key (kbd "s-x") 'spacemacs/backward-kill-word-or-region)
   (global-set-key (kbd "C-=") 'er/expand-region)
   (global-set-key (kbd "s-S-z") 'undo-tree-redo)
   (global-set-key (kbd "C-;") 'evilnc-comment-operator)
@@ -244,6 +250,10 @@
   (global-set-key (kbd "C-S-h k") 'describe-key)
   (global-set-key (kbd "C-S-h m") 'describe-mode)
 
+  (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
+  (evil-define-key 'visual evil-surround-mode-map "s" 'evil-substitute)
+  (evil-define-key 'normal evil-normal-state-map "," 'evil-repeat-find-char-reverse)
+
   (define-key evil-normal-state-map (kbd "C-b") 'backward-char)
   (define-key evil-normal-state-map (kbd "C-f") 'forward-char)
   (define-key evil-normal-state-map (kbd "C-n") 'next-line)
@@ -253,6 +263,7 @@
   (define-key evil-normal-state-map (kbd "C-j") 'my-scroll-up-line)
   (define-key evil-normal-state-map (kbd "M-S-d") 'kill-sexp)
   (define-key evil-hybrid-state-map (kbd "C-h") 'backward-delete-char-untabify)
+
 
   (spacemacs/set-leader-keys
     "s r" 'helm-imenu)
@@ -328,7 +339,7 @@
     ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(package-selected-packages
    (quote
-    (eclim auto-dim-other-buffers rainbow-mode rainbow-identifiers youdao-dictionary helm-flyspell auto-dictionary helm-gtags ggtags gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md magit-popup company-statistics company-quickhelp pos-tip company yasnippet ac-ispell auto-complete multiple-cursors git-commit with-editor hackernews hlinum color-theme-solarized color-theme xterm-color shell-pop multi-term eshell-prompt-extras esh-help windsize windresize origami yafolding highlight-thing vimish-fold org-pomodoro alert log4e toc-org org-repo-todo org-present gntp org-plus-contrib org-bullets htmlize gnuplot toml-mode racer rust-mode pyvenv pytest pyenv-mode py-yapf pip-requirements magit-gh-pulls hy-mode helm-pydoc github-clone github-browse-file git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache ht flycheck-rust flycheck-pos-tip flycheck fasd grizzl erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks diff-hl cython-mode company-racer deferred company-anaconda anaconda-mode pythonic f smeargle reveal-in-osx-finder pbcopy osx-trash orgit mmm-mode markdown-toc markdown-mode magit-gitflow launchctl helm-gitignore request helm-company helm-c-yasnippet evil-magit magit auto-yasnippet ws-butler window-numbering volatile-highlights vi-tilde-fringe spaceline s powerline smooth-scrolling restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox hydra spinner page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu eval-sexp-fu highlight elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm which-key use-package spacemacs-theme quelpa popup helm-core evil bind-map avy)))
+    (flycheck-ycmd company-ycmd ycmd request-deferred company-flx eclim auto-dim-other-buffers rainbow-mode rainbow-identifiers youdao-dictionary helm-flyspell auto-dictionary helm-gtags ggtags gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md magit-popup company-statistics company-quickhelp pos-tip company yasnippet ac-ispell auto-complete multiple-cursors git-commit with-editor hackernews hlinum color-theme-solarized color-theme xterm-color shell-pop multi-term eshell-prompt-extras esh-help windsize windresize origami yafolding highlight-thing vimish-fold org-pomodoro alert log4e toc-org org-repo-todo org-present gntp org-plus-contrib org-bullets htmlize gnuplot toml-mode racer rust-mode pyvenv pytest pyenv-mode py-yapf pip-requirements magit-gh-pulls hy-mode helm-pydoc github-clone github-browse-file git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache ht flycheck-rust flycheck-pos-tip flycheck fasd grizzl erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks diff-hl cython-mode company-racer deferred company-anaconda anaconda-mode pythonic f smeargle reveal-in-osx-finder pbcopy osx-trash orgit mmm-mode markdown-toc markdown-mode magit-gitflow launchctl helm-gitignore request helm-company helm-c-yasnippet evil-magit magit auto-yasnippet ws-butler window-numbering volatile-highlights vi-tilde-fringe spaceline s powerline smooth-scrolling restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox hydra spinner page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu eval-sexp-fu highlight elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm which-key use-package spacemacs-theme quelpa popup helm-core evil bind-map avy)))
  '(spacemacs-theme-comment-bg nil)
  '(spacemacs-theme-org-height nil))
 (custom-set-faces
