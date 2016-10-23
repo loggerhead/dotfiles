@@ -177,6 +177,9 @@
   (diff-hl-flydiff-mode t)
   (delete-selection-mode t)
 
+  ;; fuzzy-match setting
+  (setq helm-swoop-use-fuzzy-match t)
+
   ;; eshell
   (with-eval-after-load "esh-opt"
     (autoload 'epe-theme-dakrone "eshell-prompt-extras")
@@ -217,6 +220,7 @@
   (setq nyan-wavy-trail nil)
   (setq nyan-animate-nyancat nil)
 
+  ;; popwin
   (push "*Warnings*" popwin:special-display-config)
 
   ;; youdao-dict
@@ -273,7 +277,7 @@
 
   (spacemacs/declare-prefix "j" "jump")
   (spacemacs/set-leader-keys
-    "j d" 'evil-goto-definition
+    "j d" (kbd ", g g")
     "j c" 'evil-avy-goto-char
     "j l" 'evil-avy-goto-line
     "j w" 'evil-avy-goto-word-1)
