@@ -287,7 +287,7 @@
 
   (spacemacs/declare-prefix "j" "jump")
   (spacemacs/set-leader-keys
-    "j d" (kbd ", g g")
+    "j d" (kbd "' g g")
     "j c" 'evil-avy-goto-char
     "j l" 'evil-avy-goto-line
     "j w" 'evil-avy-goto-word-1)
