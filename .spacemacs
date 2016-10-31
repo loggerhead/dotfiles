@@ -21,7 +21,7 @@
      spell-checking
      syntax-checking
      (auto-completion :variables
-                      auto-completion-tab-key-behavior 'nil
+                      auto-completion-tab-key-behavior 'complete
                       auto-completion-return-key-behavior 'complete
                       auto-completion-complete-with-key-sequence-delay 0.01
                       auto-completion-enable-snippets-in-popup t
@@ -174,7 +174,7 @@
   (delete-selection-mode t)
 
   ;; fuzzy-match setting
-  (setq helm-swoop-use-fuzzy-match t)
+  (setq helm-swoop-use-fuzzy-match nil)
 
   ;; TODO: need test fuzzy search
   ;; ycmd completion
@@ -225,6 +225,12 @@
   (setq nyan-wavy-trail nil)
   (setq nyan-animate-nyancat nil)
 
+  ;; bookmarks
+  (defadvice bookmark-jump (after bookmark-jump activate)
+    (let ((latest (bookmark-get-bookmark bookmark)))
+      (setq bookmark-alist (delq latest bookmark-alist))
+      (add-to-list 'bookmark-alist latest)))
+
   ;; popwin
   (push "*Warnings*" popwin:special-display-config)
 
@@ -264,6 +270,7 @@
   (define-key evil-normal-state-map (kbd "M-S-d") 'kill-sexp)
   (define-key evil-hybrid-state-map (kbd "C-h") 'backward-delete-char-untabify)
 
+  ;; jump to functions
   (spacemacs/set-leader-keys
     "s r" 'helm-imenu)
 
@@ -285,8 +292,18 @@
     "g r" 'magit-remote-popup
     "g R" 'magit-reset-popup)
 
+  (spacemacs/declare-prefix "B" "bookmark")
+  (spacemacs/set-leader-keys
+    "B B" 'helm-bookmarks
+    "B s" 'bookmark-save
+    "B d" 'bookmark-delete
+    "B j" 'bookmark-jump
+    "B l" 'bookmark-bmenu-list
+    "B s" 'bookmark-set)
+
   (spacemacs/declare-prefix "j" "jump")
   (spacemacs/set-leader-keys
+    "j j" 'evil-avy-goto-word-1
     "j d" (kbd "' g g")
     "j c" 'evil-avy-goto-char
     "j l" 'evil-avy-goto-line
