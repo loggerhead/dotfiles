@@ -172,7 +172,7 @@ scpr() {
 }
 
 ssh_lab() {
-    mosh $USER@$LAB:$VPS_PORT
+    mosh --ssh="ssh -p $VPS_PORT" $USER@$LAB
 }
 
 ssh_lab2() {
@@ -185,11 +185,11 @@ ssh_lab_dev() {
 
 
 ssh_proxy() {
-    mosh $USER@$SS_PROXY:$VPS_PORT
+    mosh --ssh="ssh -p $VPS_PORT" $USER@$SS_PROXY
 }
 
 ssh_vps() {
-    mosh $USER@$VPS:$VPS_PORT
+    mosh --ssh="ssh -p $VPS_PORT" $USER@$VPS
 }
 
 if [[ -n ${INSIDE_EMACS} ]]; then
