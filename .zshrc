@@ -5,7 +5,6 @@ plugins=(
     cabal docker gem git
     git-extras httpie npm redis-cli
     pip extract python zsh-autosuggestions
-    zsh-wakatime
 )
 
 ZSH_TMUX_AUTOSTART=true
@@ -52,7 +51,7 @@ alias h="history | tail -n 30"
 alias allownetwork="sudo codesign --force --sign - "
 
 alias notebook="jupyter notebook &> /dev/null &"
-alias myip="curl ifconfig.me"
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias subl="open -a Sublime\ Text"
 alias sublc="completion daemon &> /dev/null &"
 alias ifind="mdfind -onlyin $PWD "
@@ -163,12 +162,20 @@ port() {
     sudo lsof -i :$*
 }
 
+kill_port() {
+    kill $(port $1 | awk '{print $2}' | tail -n 1)
+}
+
 scpr() {
     if [ -z "$PORT" ]; then
         PORT=22
     fi
 
     rsync -rvP --rsh="ssh -p $PORT" $@
+}
+
+ftp_upyun() {
+    lftp -u $FTP_UPYUN_USER,$1 $FTP_UPYUN
 }
 
 ssh_lab() {
@@ -224,3 +231,4 @@ EOPLUGINS
 fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=green'
+eval "$(pyenv init -)"

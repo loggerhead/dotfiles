@@ -10,6 +10,7 @@ export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 export PYTHONIOENCODING="UTF-8"
 
+export FTP_UPYUN="v0.ftp.upyun.com"
 export MACKUP_DIR="$HOME/Nutstore/"
 export IMG_DIR="$HOME/.DS_Store/imgs"
 export NIU_GE_SYNC_DIR="$IMG_DIR"
@@ -19,7 +20,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 
 export HOMEBREW_PREFIX=/usr/local/Cellar
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-export HOMEBREW_BOTTLE_DOMAIN='https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles'
+export HOMEBREW_BOTTLE_DOMAIN='https://mirrors.ustc.edu.cn/homebrew-bottles'
 
 export HADOOP_HOME=$(brew --prefix hadoop)
 export YARN_HOME=$HADOOP_HOME
@@ -28,7 +29,8 @@ export THRIFT_HOME=$(brew --prefix thrift)
 export ZOOKEEPER_HOME=$(brew --prefix zookeeper)
 export KAFKA_HOME=$(brew --prefix kafka)
 
-export GOROOT=$(brew --prefix go)
+export GOPATH=$HOME/go
+
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export POSTGRES_PATH=/Applications/Postgres93.app/Contents/MacOS/bin
 
@@ -36,10 +38,10 @@ export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Hom
 export CLASSPATH=".:./weka.jar:/usr/local/lib:/Applications/weka-3-6-13/weka.jar:$KAFKA_HOME/libs:$THRIFT_HOME/lib:$HBASE_HOME/lib:$HADOOP_HOME/lib:$CLASSPATH"
 export GENERATED_JAVAH=$JAVA_HOME
 
-export PATH=$(brew --prefix coreutils)/libexec/gnubin:$HOME/Documents/codes/myscript:$HOME/.cargo/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:$POSTGRES_PATH:$GOROOT/bin:$HBASE_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+export PATH=$(brew --prefix coreutils)/libexec/gnubin:$HOME/Documents/codes/myscript:$HOME/.cargo/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:$POSTGRES_PATH:$HBASE_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 
 export RUST_BACKTRACE=1
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
-export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup/dist
+export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
 export CARGO_HOME=$HOME/.cargo
