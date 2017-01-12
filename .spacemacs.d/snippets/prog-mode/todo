@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: todo
+# key: td
+# condition: (not (eq major-mode 'sh-mode))
+# --
+`(yas-with-comment "TODO: ")`

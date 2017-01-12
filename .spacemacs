@@ -25,7 +25,6 @@
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-return-key-behavior 'complete
                       auto-completion-complete-with-key-sequence-delay 0.01
-                      auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t)
      (version-control :variables
                       vc-follow-symlinks t
@@ -204,11 +203,7 @@
                                           try-expand-debbrev-from-kill
                                           try-complete-file-name-partially
                                           try-complete-file-name
-                                          try-expand-all-abbrevs
-                                          try-expand-list
-                                          try-expand-line
-                                          try-complete-lisp-symbol-partially
-                                          try-complete-lisp-symbol))
+                                          try-expand-all-abbrevs))
 
   ;; org
   (setq org-agenda-files '("~/org"))
@@ -240,7 +235,7 @@
 
   ;; youdao-dict
   (setq url-automatic-caching t)
-  (setq youdao-dictionary-search-history-file "~/.emacs.d/.youdao")
+  (setq youdao-dictionary-search-history-file "~/.spacemacs.d/youdao_history")
   (push "*Youdao Dictionary*" popwin:special-display-config)
   (spacemacs/declare-prefix "d" "dictionary")
   (spacemacs/set-leader-keys
@@ -254,6 +249,7 @@
   (global-set-key (kbd "s-S-z") 'undo-tree-redo)
   (global-set-key (kbd "C-;") 'evilnc-comment-operator)
   (global-set-key (kbd "C-\\") 'find-file-at-point)
+  (global-set-key (kbd "M-;") 'yas-expand)
 
   (global-set-key (kbd "C-S-h f") 'describe-function)
   (global-set-key (kbd "C-S-h v") 'describe-variable)
@@ -273,6 +269,8 @@
   (define-key evil-normal-state-map (kbd "C-j") 'my-scroll-up-line)
   (define-key evil-normal-state-map (kbd "M-S-d") 'kill-sexp)
   (define-key evil-hybrid-state-map (kbd "C-h") 'backward-delete-char-untabify)
+  (define-key evil-normal-state-map (kbd "C-;") 'evilnc-comment-operator)
+  (define-key evil-hybrid-state-map (kbd "C-;") 'evilnc-comment-operator)
 
   ;; jump to functions
   (spacemacs/set-leader-keys
