@@ -86,6 +86,15 @@ alias lf="ls | fzf --tac"
 #     pandoc '$1.md' --latex-engine=xelatex --variable mainfont='Songti SC' -o '$1.pdf'
 # }
 
+pyenv_install() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: $0 <version>'
+    else
+        wget http://mirrors.sohu.com/python/$1/Python-$1.tar.xz -P ~/.pyenv/cache/
+        pyenv install $1
+    fi
+}
+
 o() {
     if [[ -z "$1" ]]; then
         open .
