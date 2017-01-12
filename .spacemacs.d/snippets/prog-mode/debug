@@ -1,6 +1,5 @@
 # -*- mode: snippet -*-
 # name: debug
 # key: de
-# condition: (not (eq major-mode 'sh-mode))
 # --
 `(yas-with-comment "DEBUG: ")`
