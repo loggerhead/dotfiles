@@ -1,7 +1,6 @@
-os:
-  - osx
-
+os: osx
 sudo: false
+
 script:
   - ./bootstrap.py --dry-run
   - touch ~/.zshrc
