@@ -7,8 +7,7 @@ import argparse
 
 SOFTWARES = [
     ('brew', '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'),
-    ('mvim', 'brew install vim macvim && brew link macvim'),
-    ('zsh rg tmux pyenv', 'brew install zsh ripgrep tmux pyenv'),
+    ('zsh vim macvim rg tmux pyenv', 'brew install zsh vim macvim ripgrep tmux pyenv'),
     ('oh-my-zsh', 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"'),
     ('zgen', 'git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"'),
 ]
@@ -96,3 +95,5 @@ if __name__ == '__main__':
     args = get_args()
     install_all(args)
     link_all(args)
+    run_command(('vim plugins', 'vim +PluginInstall +qall'),
+                dry_run=args['dry_run'])

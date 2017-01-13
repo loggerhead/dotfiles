@@ -3,8 +3,8 @@ sudo: false
 
 script:
   - ./bootstrap.py --dry-run
-  - touch ~/.zshrc
   - ./bootstrap.py --force
+  - ./test.sh
 
 notifications:
   email:
