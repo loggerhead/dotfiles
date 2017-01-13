@@ -95,5 +95,5 @@ if __name__ == '__main__':
     args = get_args()
     install_all(args)
     link_all(args)
-    run_command(('vim plugins', 'vim +PluginInstall +qall'),
+    run_command(('vim plugins', 'yes "" | vim +PluginInstall +qall'),
                 dry_run=args['dry_run'])

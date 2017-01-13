@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name : travis badge
+#key : travis
+# --
+[![Build Status](https://travis-ci.org/loggerhead/$1.svg?branch=master)](https://travis-ci.org/loggerhead/$1)
