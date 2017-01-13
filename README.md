@@ -1,5 +1,7 @@
 # Installtion
+
 ```bash
-cd dotfiles && source bootstrap.sh
-ln -s ~/.spacemacs.d ~/.emacs.d/private
+git clone --recursive https://github.com/loggerhead/dotfiles.git
+cd dotfiles
+./bootstrap.py
 ```
