@@ -1,6 +1,8 @@
 [user]
 name = loggerhead
 email = lloggerhead@gmail.com
+signingkey = 22F71BFF
+
 [push]
 default = matching
 [credential]
@@ -29,3 +31,6 @@ newNormal = green bold
 newHighlight = green bold 22
 [commit]
 template = ~/.stCommitMsg
+gpgsign = true
+[gpg]
+program = gpg2

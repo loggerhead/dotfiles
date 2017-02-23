@@ -83,7 +83,7 @@ def run_command(s, dry_run=False):
     print('installing {}...'.format(names))
     if dry_run:
         return
-    os.system(cmd)
+    assert(os.system(cmd) == 0)
 
 
 def install_all(args):
@@ -95,5 +95,6 @@ if __name__ == '__main__':
     args = get_args()
     install_all(args)
     link_all(args)
+    # FIXME: this command will not exists with unknow reason
     run_command(('vim plugins', 'yes "" | vim +PluginInstall +qall'),
                 dry_run=args['dry_run'])

@@ -32,6 +32,7 @@ DISABLE_AUTO_TITLE="true"
 
 COMPLETION_WAITING_DOTS="true"
 
+alias git_pull_to_all='git remote | xargs -L1 git push --all'
 alias pdl='proxychains4 aria2c -c'
 alias vscode='/usr/local/bin/Electron'
 alias tor='proxychains4 tor'
@@ -72,7 +73,7 @@ alias paste='pbpaste'
 alias erlang='kjell'
 alias ftp='lftp'
 alias httpd='echo_server.py'
-alias sync_imgs="rsync -av $IMG_DIR $USER@$VPS::sync"
+alias sync_imgs="rsync -av $IMG_DIR $USER@$WWW_VPS::sync"
 
 alias t="tmux -2"
 alias p="parallel --pipe -k"
@@ -85,6 +86,14 @@ alias lf="ls | fzf --tac"
 # md2pdf() {
 #     pandoc '$1.md' --latex-engine=xelatex --variable mainfont='Songti SC' -o '$1.pdf'
 # }
+
+docker_clean() {
+    docker rm -v $(docker ps -a -q -f status=exited)
+}
+
+docker_clean_images() {
+    docker rmi $(docker images -f "dangling=true" -q)
+}
 
 pyenv_install() {
     if [[ -z "$1" ]]; then
@@ -187,25 +196,20 @@ ftp_upyun() {
     lftp -u $FTP_UPYUN_USER,$1 $FTP_UPYUN
 }
 
-ssh_lab() {
-    mosh --ssh="ssh -p $VPS_PORT" $USER@$LAB
+mosh_to() {
+    mosh --ssh="ssh -p $VPS_PORT" $USER@$1
 }
 
-ssh_lab2() {
-    ssh $USER@$LAB2
+ssh_hk() {
+    mosh_to $HK_VPS
 }
-
-ssh_lab_dev() {
-    mosh $USER@$LAB_DEV
-}
-
 
 ssh_proxy() {
-    mosh --ssh="ssh -p $VPS_PORT" $USER@$SS_PROXY
+    mosh_to $PROXY_VPS
 }
 
-ssh_vps() {
-    mosh --ssh="ssh -p $VPS_PORT" $USER@$VPS
+ssh_www() {
+    mosh_to $WWW_VPS
 }
 
 if [[ -n ${INSIDE_EMACS} ]]; then
@@ -235,9 +239,13 @@ if ! zgen saved; then
 EOPLUGINS
 
     zgen load tarruda/zsh-autosuggestions
+    zgen load zsh-users/zsh-syntax-highlighting
 
     zgen save
 fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=green'
 eval "$(pyenv init -)"
+
+# added by travis gem
+[ -f /Users/fz/.travis/travis.sh ] && source /Users/fz/.travis/travis.sh
