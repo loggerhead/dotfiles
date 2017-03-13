@@ -61,6 +61,9 @@ alias cmake_clean="rm -rf CMakeCache.txt CMakeFiles/ Makefile cmake_install.cmak
 alias mongodbd="sudo mongod --fork --logpath /tmp/mongodb.log"
 alias stopmongodb="sudo pkill mongod"
 alias cask="brew cask"
+alias emacs-daemon="emacs --daemon"
+alias ec="emacsclient -t"
+alias emacs-gui="emacsclient -c"
 alias vim="mvim -v"
 alias irc="weechat"
 alias wireshark="sudo chbpf && /usr/local/bin/wireshark"
@@ -198,6 +201,10 @@ ftp_upyun() {
 
 mosh_to() {
     mosh --ssh="ssh -p $VPS_PORT" $USER@$1
+}
+
+ssh_mylab() {
+    ssh -p $VPS_PORT $MYLAB_PC
 }
 
 ssh_hk() {
