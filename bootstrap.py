@@ -7,7 +7,7 @@ import argparse
 
 SOFTWARES = [
     ('brew', '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'),
-    ('zsh vim macvim rg tmux pyenv', 'brew install zsh vim macvim ripgrep tmux pyenv'),
+    ('zsh vim macvim rg tmux pyenv', 'brew reinstall zsh vim macvim ripgrep tmux pyenv'),
     ('oh-my-zsh', 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"'),
     ('zgen', 'git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"'),
 ]
