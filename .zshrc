@@ -1,7 +1,7 @@
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
 plugins=(
-    z rust brew command-not-found
+    z brew command-not-found
     cabal docker gem git
     git-extras httpie npm redis-cli
     pip extract python zsh-autosuggestions
@@ -32,59 +32,14 @@ DISABLE_AUTO_TITLE="true"
 
 COMPLETION_WAITING_DOTS="true"
 
-alias git_pull_to_all='git remote | xargs -L1 git push --all'
-alias pdl='proxychains4 aria2c -c'
-alias vscode='/usr/local/bin/Electron'
-alias tor='proxychains4 tor'
-alias nosetests3='python3 -m "nose"'
-alias la="ls -a"
-alias vimconfig="vim ~/.vimrc"
-alias tmuxconfig="vim ~/.tmux.conf"
-alias tmuxkeyconfig="vim ~/.tmux/bind-key.conf"
-alias nginxconfig="sudo vim /usr/local/nginx/conf/nginx.conf"
-alias zshconfig="vim ~/.zshrc"
-
-alias nginxreload="sudo /usr/local/nginx/sbin/nginx -s reload"
-alias zshreload="source ~/.zshrc"
-alias tmuxreload="tmux source ~/.tmux.conf"
-
-alias h="history | tail -n 30"
-alias allownetwork="sudo codesign --force --sign - "
-
-alias notebook="jupyter notebook &> /dev/null &"
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias subl="open -a Sublime\ Text"
-alias sublc="completion daemon &> /dev/null &"
-alias ifind="mdfind -onlyin $PWD "
-alias remove="/bin/rm"
-alias cmake_clean="rm -rf CMakeCache.txt CMakeFiles/ Makefile cmake_install.cmake"
-alias mongodbd="sudo mongod --fork --logpath /tmp/mongodb.log"
-alias stopmongodb="sudo pkill mongod"
-alias cask="brew cask"
-alias emacs-daemon="emacs --daemon"
-alias ec="emacsclient -t"
-alias emacs-gui="emacsclient -c"
-alias vim="mvim -v"
-alias irc="weechat"
-alias wireshark="sudo chbpf && /usr/local/bin/wireshark"
-alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
-alias py='pypy'
-alias ppython='ptpython'
-alias objdump='gobjdump'
-alias copy='pbcopy'
-alias paste='pbpaste'
-alias erlang='kjell'
-alias ftp='lftp'
-alias httpd='echo_server.py'
-alias sync_imgs="rsync -av $IMG_DIR $USER@$WWW_VPS::sync"
-
-alias t="tmux -2"
-alias p="parallel --pipe -k"
-alias r="trash-put"
-alias s="rg"
-alias f="ag -l"
-alias j="fcd"
-alias lf="ls | fzf --tac"
+t() {
+    if tmux list-sessions 2&>1 > /dev/null; then
+        sess_num=$(tmux list-sessions | grep -oP "^[0-9]:" | grep -o "[0-9]" | head -n 1)
+        tmux attach-session -t $sess_num
+    else
+        tmux
+    fi
+}
 
 # md2pdf() {
 #     pandoc '$1.md' --latex-engine=xelatex --variable mainfont='Songti SC' -o '$1.pdf'
@@ -149,10 +104,11 @@ fkill() {
 
 # config fasd
 fcd() {
-    DIRS=($(z -l $1 | sort -r | awk '{print $2}' | uniq))
-    if [[ ${#DIRS[@]} -le 1 ]]; then
+    DIRS=($(z -l $1 | grep '^[0-9]' | awk '{print $2}' | uniq))
+    N=${#DIRS[@]} 
+    if [[ $N -eq 1 ]]; then
         cd $DIRS
-    else
+    elif [[ $N -gt 1 ]]; then
         cd $(printf '%s\n' "${DIRS[@]}" | fzf --tac)
     fi
 }
@@ -168,11 +124,7 @@ dh() {
 }
 
 c() {
-    if [[ -z $1 ]]; then
-        cat | copy
-    else
-        cat $1 | copy
-    fi
+    cat $1 | copy
 }
 
 dfs() {
@@ -195,28 +147,30 @@ scpr() {
     rsync -rvP --rsh="ssh -p $PORT" $@
 }
 
+reload_my_hhkb() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: $0 <hex_file>"
+    else
+        sudo dfu-programmer atmega32u4 erase
+        dfu-programmer atmega32u4 flash $1
+        dfu-programmer atmega32u4 reset
+    fi
+}
+
 ftp_upyun() {
     lftp -u $FTP_UPYUN_USER,$1 $FTP_UPYUN
 }
 
 mosh_to() {
-    mosh --ssh="ssh -p $VPS_PORT" $USER@$1
-}
-
-ssh_mylab() {
-    ssh -p $VPS_PORT $MYLAB_PC
-}
-
-ssh_hk() {
-    mosh_to $HK_VPS
+    mosh --ssh="ssh -p $VPS_PORT" $1
 }
 
 ssh_proxy() {
-    mosh_to $PROXY_VPS
+    mosh_to loggerhead@$PROXY_VPS
 }
 
 ssh_www() {
-    mosh_to $WWW_VPS
+    mosh_to fz@$WWW_VPS
 }
 
 if [[ -n ${INSIDE_EMACS} ]]; then
@@ -229,7 +183,6 @@ export ENHANCD_DISABLE_DOT=1
 export ENHANCD_DISABLE_HYPHEN=1
 export ENHANCD_COMMAND=ecd
 
-source $ZSH/oh-my-zsh.sh
 source "${HOME}/.zsh/zgen/zgen.zsh"
 
 if ! zgen saved; then
@@ -252,7 +205,12 @@ EOPLUGINS
 fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=green'
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
 
 # added by travis gem
 [ -f /Users/fz/.travis/travis.sh ] && source /Users/fz/.travis/travis.sh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+source "${HOME}/.zsh-aliases"

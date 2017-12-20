@@ -250,7 +250,7 @@
   (global-set-key (kbd "s-S-z") 'undo-tree-redo)
   (global-set-key (kbd "C-;") 'evilnc-comment-operator)
   (global-set-key (kbd "C-\\") 'find-file-at-point)
-  (global-set-key (kbd "M-;") 'yas-expand)
+  ;; (global-set-key (kbd "M-;") 'yas-expand)
 
   (global-set-key (kbd "C-S-h f") 'describe-function)
   (global-set-key (kbd "C-S-h v") 'describe-variable)

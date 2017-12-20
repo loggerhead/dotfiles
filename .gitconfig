@@ -12,6 +12,7 @@ helper = cache --timeout 64800
 excludesfile = ~/.gitignore_global
 attributesfile = .gitattributes_global
 gitproxy = /usr/local/bin/git_proxy.sh for gist.github.com
+	quotepath = off
 [difftool "sourcetree"]
 cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 path =
