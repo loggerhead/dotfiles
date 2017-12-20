@@ -1,0 +1,140 @@
+t() {
+    if tmux list-sessions 2&>1 > /dev/null; then
+        sess_num=$(tmux list-sessions | grep -oP "^[0-9]:" | grep -o "[0-9]" | head -n 1)
+        tmux attach-session -t $sess_num
+    else
+        tmux
+    fi
+}
+
+# md2pdf() {
+#     pandoc '$1.md' --latex-engine=xelatex --variable mainfont='Songti SC' -o '$1.pdf'
+# }
+
+docker_clean() {
+    docker rm -v $(docker ps -a -q -f status=exited)
+}
+
+docker_clean_images() {
+    docker rmi $(docker images -f "dangling=true" -q)
+}
+
+pyenv_install() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: $0 <version>'
+    else
+        wget http://mirrors.sohu.com/python/$1/Python-$1.tar.xz -P ~/.pyenv/cache/
+        pyenv install $1
+    fi
+}
+
+o() {
+    if [[ -z "$1" ]]; then
+        open .
+    else
+        open $1
+    fi
+}
+
+tldr() {
+    proxychains4 /usr/local/bin/tldr $@
+}
+
+rename_by_md5() {
+    md5 -r * | sed -e 's/\([^ ]*\) \(.*\(\..*\)\)$/mv -v \2 \1\3/'
+}
+
+boring() {
+    if [[ $((${RANDOM} % 2)) -eq 0 ]]; then
+        CMD=cowsay
+    else
+        CMD=cowthink
+    fi
+    FMTS=($($CMD -l | tail -n +2 | xargs))
+    RAND=$((${RANDOM} % ${#FMTS[@]} + 1))
+    saikou --no-color | $CMD -f ${FMTS[$RAND]}
+}
+
+fkill() {
+    PID=$(ps -axo pid,user,%cpu,%mem,comm | tail +2 | fzf --tac | awk '{print $1}')
+    if [[ -z "$PID" ]]; then
+        return 1
+    fi
+
+    if [[ -z "$1" ]]; then
+        kill "$PID"
+    else
+        kill "$1" "$PID"
+    fi
+}
+
+# config fasd
+fcd() {
+    DIRS=($(z -l $1 | grep '^[0-9]' | awk '{print $2}' | uniq))
+    N=${#DIRS[@]} 
+    if [[ $N -eq 1 ]]; then
+        cd $DIRS
+    elif [[ $N -gt 1 ]]; then
+        cd $(printf '%s\n' "${DIRS[@]}" | fzf --tac)
+    fi
+}
+
+# goto cd history
+dh() {
+    DIR=$(dirs -v | head -30 | fzf --tac | cut -f2)
+    DIR=$(sed -e 's/[[:space:]]*$//' <<< ${DIR})
+    if [[ ${#DIR[@]} -eq 1 || "${DIR[2]}" == "/" ]]; then
+        DIR="${DIR/#\~/$HOME}"
+    fi
+    cd $DIR
+}
+
+c() {
+    cat $1 | copy
+}
+
+dfs() {
+    hdfs dfs -$*
+}
+
+port() {
+    sudo lsof -i :$*
+}
+
+kill_port() {
+    kill $(port $1 | awk '{print $2}' | tail -n 1)
+}
+
+scpr() {
+    if [ -z "$PORT" ]; then
+        PORT=22
+    fi
+
+    rsync -rvP --rsh="ssh -p $PORT" $@
+}
+
+reload_my_hhkb() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: $0 <hex_file>"
+    else
+        sudo dfu-programmer atmega32u4 erase
+        dfu-programmer atmega32u4 flash $1
+        dfu-programmer atmega32u4 reset
+    fi
+}
+
+ftp_upyun() {
+    lftp -u $FTP_UPYUN_USER,$1 $FTP_UPYUN
+}
+
+mosh_to() {
+    mosh --ssh="ssh -p $VPS_PORT" $1
+}
+
+ssh_proxy() {
+    mosh_to loggerhead@$PROXY_VPS
+}
+
+ssh_www() {
+    mosh_to fz@$WWW_VPS
+}
